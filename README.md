@@ -2,6 +2,9 @@
 
 An Android application built with **Kotlin and Jetpack Compose** that retrieves amphibian information and photos from a remote API using **Retrofit** and displays them in a scrollable list.
 
+![Amphibians App](screenshots/1.png)
+![Amphibians App](screenshots/2.png)
+
 ## 📱 Overview
 
 The Amphibians app demonstrates how to build an Android application that consumes remote data from a REST API and presents it using modern Android development tools.
