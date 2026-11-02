@@ -10,10 +10,6 @@ class AmphibianRepository(
     private val amphibiansApiService: AmphibiansApiService
 ) {
     suspend fun getAmphibians(): List<Amphibian> {
-        delay(2000.milliseconds)
-        if (Random.nextDouble() < .0) {
-            throw IOException("Network Error")
-        }
         return amphibiansApiService.getAmphibians()
     }
 }

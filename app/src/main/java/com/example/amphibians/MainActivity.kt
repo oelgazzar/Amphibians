@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AmphibiansTheme(dynamicColor = false, darkTheme = false) {
+            AmphibiansTheme() {
                 App()
             }
         }
@@ -25,5 +25,5 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    HomeScreen(modifier = Modifier.safeDrawingPadding())
+    HomeScreen()
 }

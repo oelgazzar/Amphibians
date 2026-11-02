@@ -1,8 +1,5 @@
 package com.example.amphibians.ui.home
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -12,8 +9,10 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.amphibians.MyApplication
 import com.example.amphibians.data.AmphibianRepository
 import com.example.amphibians.models.Amphibian
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import okio.IOException
+import java.io.IOException
 
 sealed interface UiState {
     object Loading: UiState
@@ -26,22 +25,22 @@ sealed interface UiState {
 class MainViewModel(
     private val repository: AmphibianRepository
 ): ViewModel() {
-    var uiState: UiState by mutableStateOf(UiState.Loading)
-    private set
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiState = _uiState.asStateFlow()
 
     init {
+        println("init called")
         getAmphibians()
     }
 
     fun getAmphibians() {
-        uiState = UiState.Loading
         viewModelScope.launch {
-            uiState = UiState.Loading
+            _uiState.value = UiState.Loading
             try {
                 val amphibians = repository.getAmphibians()
-                uiState = UiState.Success(amphibians)
-            } catch (e: IOException) {
-                uiState = UiState.Error("Error loading amphibians: ${e.message}")
+                _uiState.value = UiState.Success(amphibians)
+            } catch (_: IOException) {
+                _uiState.value = UiState.Error("Error loading amphibians")
             }
         }
     }
